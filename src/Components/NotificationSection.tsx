@@ -49,7 +49,7 @@ fontSize:14px;
 
 const ButtonText = styled.Text`
 fontSize : 16px;
-fontWeight:300px;
+fontWeight:300;
 textAlign:center;
 `;
 
