@@ -71,11 +71,14 @@ height:10px;
 width:90%;
 margin-left:20px;
 padding:10px;
-`
+`;
 
-  ;
+interface ChatProps {
+  name: string;
+  message: string;
+}
 
-const Chat = ({ name, message }) => {
+const Chat: React.FC<ChatProps> = ({ name, message }) => {
   return (
     <>
       <Container>

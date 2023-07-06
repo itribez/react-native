@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-//import MyCheckbox from '../Components/MyCheckbox';  // MyCheckbox file is located
 
 type RootStackParamList = {
   Login: undefined;

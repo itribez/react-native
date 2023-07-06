@@ -13,7 +13,7 @@ const Container = styled.View`
  const ChatScreen = () => {
   return (
     <Container>
-      <Header headerTitle='Messages' IconName = "create-outline" />
+      <Header headerTitle='Messages' iconName = "create-outline" />
       <SearchComponent></SearchComponent>
      <Chat name='Floyd Miles' message ="Okay, bye" />
      <Chat name='Robert Fox'  message ="See you soon"/>

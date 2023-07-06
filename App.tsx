@@ -3,7 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { StackScreenProps, createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Ionicons } from '@expo/vector-icons';
 
 import LoginScreen from './src/Screens/LoginScreen';
 import CreateAccount from './src/Screens/CreateAccount';
@@ -13,19 +15,22 @@ import MainMenu from './src/Screens/MainMenu';
 import Notification from './src/Screens/Notification';
 import Profile from './src/Screens/Profile';
 
-// Create the Stack Navigator
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
+  App: undefined;
+};
+
+export type TabParamList = {
+  Welcome: undefined;
   Messages: undefined;
   Notification: undefined;
   MainMenu: undefined;
-  Welcome: undefined;
-  App: undefined;
   Profile: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<TabParamList>();
 
 const App: React.FC = () => {
   const [isSplashScreenVisible, setIsSplashScreenVisible] = useState(true);
@@ -58,19 +63,59 @@ const App: React.FC = () => {
   } else {
     return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Messages" component={ChatScreen} />
-        <Stack.Screen name="Notification" component={Notification} />
-        <Stack.Screen name="MainMenu" component={MainMenu} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={CreateAccount} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
-    </NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={CreateAccount} />
+          <Stack.Screen name="App" component={AppTabs} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 };
+
+const AppTabs: React.FC = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen 
+        name="Welcome" 
+        component={Welcome}
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name='home' size={30} color={color} />,
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'gray',
+        }} 
+      />
+      <Tab.Screen 
+        name="Messages" 
+        component={ChatScreen} 
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name='add-outline' size={30} color={color} />,
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'gray',
+        }} 
+      />
+      <Tab.Screen 
+        name="Notification" 
+        component={Notification} 
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name='notifications-outline' size={30} color={color} />,
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'gray',
+        }} 
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name='person' size={30} color={color} />,
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'gray',
+        }} 
+      />
+    </Tab.Navigator>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {
