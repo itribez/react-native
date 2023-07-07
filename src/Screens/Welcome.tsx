@@ -1,6 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import { View, Text, Button, Alert, ScrollView } from 'react-native';
+import Post from '../Components/Post';
+import NewPost from '../Components/NewPost';
 
 type RootStackParamList = {
   Messages: undefined;
@@ -23,17 +25,14 @@ const Welcome = ({ navigation }: WelcomeScreenProps) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text>Home Screen</Text>
-    <Button
-      title="Go to Chat"
-      onPress={() => navigation.navigate('Messages')}
-    />
-    <Button
-      title="Go to Profile"
-      onPress={() => navigation.navigate('Profile')}
-    />
+    <ScrollView>
+    <NewPost />
+    <View>
+      <Post title="First Post" content="This is the content of the first post" image={require('../../assets/logo.png')} />
+      <Post title="Second Post" content="This is the content of the second post" image={require('../../assets/logo.png')} /> 
+      <Post title="Third Post" content="This is the content of the third post" image={require('../../assets/logo.png')} />
     </View>
+    </ScrollView>
   );
 };
 
