@@ -3,5 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true
-  }
+  },
+  "include": [
+    "typings.d.ts",
+  ]
 }

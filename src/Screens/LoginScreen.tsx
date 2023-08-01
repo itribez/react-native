@@ -22,10 +22,38 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = () => {
-    // Handle the login logic here
-    console.log("Logging in with email: ", email, " and password: ", password);
-    navigation.navigate('App', { screen: 'Welcome' });
+    if (email.trim() === '' || password.trim() === '') {
+      alert('Please enter both email and password.');
+      return;
+    }
+  
+    const payload = {
+      email,
+      password,
+    };
+  
+    fetch('https://itribez-node-apis.onrender.com/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success && data.token) {
+          // Handle the successful login here, for example by storing the token
+          navigation.navigate('App', { screen: 'Welcome' });
+        } else {
+          alert('Login failed: ' + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+        alert('An error occurred during login. Please try again.');
+      });
   };
+  
 
   const handleGoogleLogin = () => {
     // Handle the login logic here
