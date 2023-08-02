@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import MyCheckbox from '../Components/MyCheckbox';
 import { StackScreenProps, createStackNavigator } from '@react-navigation/stack';
 import { TabParamList } from '../../App';
+import * as SecureStore from 'expo-secure-store';
 
 type RootStackParamList = {
   Login: undefined;
@@ -39,8 +40,15 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.token) {
-          // Handle the successful login here
-          navigation.navigate('App', { screen: 'Welcome' });
+          // Handle the successful login
+          // Store the token securely
+          SecureStore.setItemAsync('userToken', data.token)
+            .then(() => {
+              navigation.navigate('App', { screen: 'Welcome' });
+            })
+            .catch((error) => {
+              console.error('Error storing token:', error);
+            });
         } else {
           alert('Login failed: ' + data.message);
         }
@@ -53,13 +61,13 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   
 
   const handleGoogleLogin = () => {
-    // Handle the login logic here
+    // Handle the login logic
     console.log("Logging in with email: ", email, " and password: ", password);
   };
 
 
   const handleFBLogin = () => {
-    // Handle the login logic here
+    // Handle the login logic
     console.log("Logging in with email: ", email, " and password: ", password);
   };
 

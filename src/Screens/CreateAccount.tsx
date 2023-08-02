@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 import { TabParamList } from '../../App';
 
 type RootStackParamList = {
@@ -41,8 +42,12 @@ const CreateAccount = ({ navigation }: RegistrationScreenProps) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.token) {
-        // Handle the successful login here
-        navigation.navigate('App', { screen: 'Welcome' });
+        // Handle the successful login
+        // Store the token securely
+        SecureStore.setItemAsync('userToken', data.token)
+        .then(() => {
+          navigation.navigate('App', { screen: 'Welcome' });
+        })
       } else {
         alert('Registration failed: ' + data.message);
       }

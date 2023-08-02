@@ -19,7 +19,7 @@ const NewPost = () => {
   const [content, setContent] = useState('');
 
   const submitPost = () => {
-    // Here handle the submission of the post
+    // Handle the submission of the post
     console.log({ content });
   };
 

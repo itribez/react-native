@@ -25,7 +25,6 @@ const SearchComponent = () => {
   const handleSearch = () => {
     // Perform search logic here using the searchQuery state
     console.log('Search query:', searchQuery);
-    // ...
   };
 
   return (
