@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MyCheckbox from '../Components/MyCheckbox';
-import { NavigationContainer } from '@react-navigation/native';
 import { StackScreenProps, createStackNavigator } from '@react-navigation/stack';
-import Welcome from './Welcome';
-import CreateAccount from './CreateAccount';
 import { TabParamList } from '../../App';
 
 type RootStackParamList = {
@@ -41,8 +38,8 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.success && data.token) {
-          // Handle the successful login here, for example by storing the token
+        if (data.token) {
+          // Handle the successful login here
           navigation.navigate('App', { screen: 'Welcome' });
         } else {
           alert('Login failed: ' + data.message);

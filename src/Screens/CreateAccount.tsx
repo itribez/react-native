@@ -1,13 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import SecureStorage from 'react-native-secure-storage';
 import { TabParamList } from '../../App';
 
 type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   App: { screen: keyof TabParamList };
+  Welcome: undefined;
 };
 
 type RegistrationScreenProps = StackScreenProps<RootStackParamList, 'Register'>;
@@ -23,13 +23,13 @@ const CreateAccount = ({ navigation }: RegistrationScreenProps) => {
       alert('Please enter both email and password.');
       return;
     }
-  
+
     // Construct the request payload
     const payload = {
       email,
       password,
     };
-  
+
     // Send the POST request
     fetch('http://itribez-node-apis.onrender.com/user/register', {
       method: 'POST',
@@ -38,23 +38,15 @@ const CreateAccount = ({ navigation }: RegistrationScreenProps) => {
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => response.json())
-      .then((data: { success: boolean; token?: string; message?: string }) => {
-        // Handle the response here.
-        if (data.success && data.token) {
-          // Registration was successful
-          // Store the token securely
-          SecureStorage.setItem('userToken', data.token, {
-            accessible: SecureStorage.ACCESSIBLE.WHEN_UNLOCKED,
-          });
-  
-          navigation.navigate('App', { screen: 'Welcome' }); // Redirect to login screen
-          alert('Registration successful! Please log in.');
-        } else {
-          // Registration failed
-          alert('Registration failed: ' + data.message);
-        }
-      })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.token) {
+        // Handle the successful login here
+        navigation.navigate('App', { screen: 'Welcome' });
+      } else {
+        alert('Registration failed: ' + data.message);
+      }
+    })
       .catch((error: Error) => {
         console.error('Error during registration:', error);
         alert('An error occurred during registration. Please try again.');
@@ -63,7 +55,7 @@ const CreateAccount = ({ navigation }: RegistrationScreenProps) => {
 
   return (
     <View style={styles.container}>
-     <Image 
+      <Image
         style={styles.logo}
         source={require('../../assets/logo.png')} //local path
       />
